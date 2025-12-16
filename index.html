@@ -198,20 +198,16 @@
 
         <!-- Music Audio -->
         <audio id="bg-music" loop preload="auto">
-            <!-- First attempt: Google Actions Library (Stable) -->
-            <source src="https://actions.google.com/sounds/v1/holidays/jingle_bells.ogg" type="audio/ogg">
-            <!-- Fallback: Kevin MacLeod (Often works) -->
-            <source src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Kevin_MacLeod_-_Jingle_Bells.ogg" type="audio/ogg">
-            <!-- Fallback: Mixkit -->
-            <source src="https://assets.mixkit.co/music/preview/mixkit-christmas-arrival-2965.mp3" type="audio/mp3">
+            <!-- Local File (Downloaded to ensure it works) -->
+            <source src="./audio/music.mp3" type="audio/mp3">
         </audio>
         
-        <!-- Sound Effects -->
+        <!-- Sound Effects (Local Files) -->
         <audio id="sfx-sparkle" preload="auto">
-            <source src="https://assets.mixkit.co/sfx/preview/mixkit-fairy-dust-sparkle-861.mp3" type="audio/mp3">
+            <source src="./audio/sparkle.mp3" type="audio/mp3">
         </audio>
         <audio id="sfx-page" preload="auto">
-            <source src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1530.mp3" type="audio/mp3">
+            <source src="./audio/page.mp3" type="audio/mp3">
         </audio>
 
         <!-- Music Control -->
@@ -409,15 +405,6 @@
                 // Auto play music on first interaction (Gift open)
                 if (viewId === 'view-message') {
                     playSFX('sparkle'); // Play magic sound on reveal
-                    if (!isMusicPlaying && !hasInteracted) {
-                        hasInteracted = true;
-                        // Try to play music automatically after interaction
-                        audio.play().then(() => {
-                            isMusicPlaying = true;
-                            musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-                            musicBtn.classList.add('text-gold-primary', 'border-gold-primary');
-                        }).catch(e => console.log("Auto-play prevented"));
-                    }
                 }
 
                 setTimeout(() => {
@@ -459,6 +446,32 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             createSnow();
+            
+            // Attempt auto-play on load (might be blocked, but worth a try)
+            const startMusic = () => {
+                if (!isMusicPlaying) {
+                    audio.play().then(() => {
+                        isMusicPlaying = true;
+                        updateMusicBtnState(true);
+                        hasInteracted = true;
+                    }).catch(() => {
+                        // Expected if no interaction yet
+                    });
+                }
+            };
+            startMusic();
+
+            // Ensure music starts on ANY first interaction if it hasn't already
+            document.body.addEventListener('click', function onFirstClick(e) {
+                // Ignore if clicking the music button itself (it handles its own logic)
+                if (musicBtn.contains(e.target)) return;
+
+                if (!isMusicPlaying) {
+                    toggleMusic(); 
+                }
+                // Remove listener after first attempt
+                document.body.removeEventListener('click', onFirstClick);
+            }, { once: true });
         });
 
     </script>
