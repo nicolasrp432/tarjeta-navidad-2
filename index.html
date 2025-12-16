@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bar Cometa - Postal Navideña</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold-primary': '#FABC02',
+                        'gold-soft': '#E3D4B6',
+                        'black-midnight': '#050505',
+                        'christmas-red': '#C41E3A',
+                        'christmas-green': '#165B33'
+                    },
+                    fontFamily: {
+                        'script': ['Great Vibes', 'cursive'],
+                        'body': ['Montserrat', 'sans-serif'],
+                        'display': ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'sparkle': 'sparkle 1.5s linear infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        sparkle: {
+                            '0%, 100%': { opacity: '0' },
+                            '50%': { opacity: '1' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            overflow: hidden; /* Prevent scrolling on body */
+        }
+
+        /* Text Animation Delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .delay-700 { animation-delay: 700ms; }
+        .delay-900 { animation-delay: 900ms; }
+        .delay-1100 { animation-delay: 1100ms; }
+        .delay-1300 { animation-delay: 1300ms; }
+
+        .app-container {
+            width: 100%;
+            height: 100vh; /* Full viewport height */
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            max-width: 480px; /* Mobile width constraint */
+            margin: 0 auto;
+            position: relative;
+            background-color: #050505;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(250, 188, 2, 0.1);
+        }
+
+        /* Backgrounds */
+        .bg-pattern {
+            background-image: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.8) 0%, #050505 100%);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 0px 10px rgba(250, 188, 2, 0.2);
+        }
+
+        /* View Transitions */
+        .view-section {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95) translateY(20px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .view-section.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+            z-index: 20;
+        }
+
+        .view-section.exiting {
+            opacity: 0;
+            transform: scale(1.05) translateY(-20px);
+        }
+
+        /* Photo Frame */
+        .photo-frame {
+            position: relative;
+            padding: 10px;
+            background: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fcf6ba);
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: #050505;
+            z-index: 0;
+        }
+        
+        .photo-frame img {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        /* Snow Effect */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 1px #000;
+            user-select: none;
+            z-index: 5;
+            pointer-events: none;
+            animation-name: snow-fall, snow-shake;
+            animation-duration: 10s, 3s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+        }
+
+        @keyframes snow-fall {
+            0% { top: -10%; }
+            100% { top: 100%; }
+        }
+
+        @keyframes snow-shake {
+            0% { transform: translateX(0px); }
+            50% { transform: translateX(40px); }
+            100% { transform: translateX(0px); }
+        }
+
+        /* Custom Scrollbar for text content */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #bf953f;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Container -->
+    <main id="app" class="app-container bg-pattern">
+        
+        <!-- Snow Container -->
+        <div id="snow-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+        <!-- Music Audio -->
+        <audio id="bg-music" loop preload="auto">
+            <!-- First attempt: Google Actions Library (Stable) -->
+            <source src="https://actions.google.com/sounds/v1/holidays/jingle_bells.ogg" type="audio/ogg">
+            <!-- Fallback: Kevin MacLeod (Often works) -->
+            <source src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Kevin_MacLeod_-_Jingle_Bells.ogg" type="audio/ogg">
+            <!-- Fallback: Mixkit -->
+            <source src="https://assets.mixkit.co/music/preview/mixkit-christmas-arrival-2965.mp3" type="audio/mp3">
+        </audio>
+        
+        <!-- Sound Effects -->
+        <audio id="sfx-sparkle" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-fairy-dust-sparkle-861.mp3" type="audio/mp3">
+        </audio>
+        <audio id="sfx-page" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1530.mp3" type="audio/mp3">
+        </audio>
+
+        <!-- Music Control -->
+        <button id="music-btn" class="absolute top-4 right-4 z-50 text-gold-soft w-10 h-10 rounded-full border border-gold-soft/30 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all hover:bg-gold-primary hover:text-black hover:border-gold-primary" onclick="toggleMusic()">
+            <i class="fa-solid fa-music"></i>
+        </button>
+
+        <!-- VIEW 1: GIFT COVER -->
+        <section id="view-cover" class="view-section active text-center">
+            <div class="relative z-10 animate-float">
+                <i class="fa-solid fa-gift text-8xl text-gradient mb-6 drop-shadow-[0_0_15px_rgba(250,188,2,0.5)]"></i>
+            </div>
+            
+            <p class="text-gold-soft text-sm uppercase tracking-[0.2em] mb-4">Para el equipo del Bar Cometa</p>
+            
+            <h1 class="font-display text-5xl mb-8 text-gradient leading-tight">
+                Regalo<br>Revelado
+            </h1>
+
+            <button onclick="goToView('view-message')" class="group relative px-8 py-3 bg-transparent border border-gold-primary text-gold-primary font-body uppercase tracking-wider text-sm transition-all duration-300 hover:bg-gold-primary hover:text-black-midnight hover:shadow-[0_0_20px_rgba(250,188,2,0.4)]">
+                <span class="relative z-10 group-hover:font-bold">Abrir Postal</span>
+                <div class="absolute inset-0 bg-gold-primary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 -z-0"></div>
+            </button>
+            
+            <p class="mt-8 text-xs text-white/30 font-light">Bar Cometa • Navidad 2025</p>
+        </section>
+
+        <!-- VIEW 2: MAIN MESSAGE + PHOTO -->
+        <section id="view-message" class="view-section">
+            <div class="w-full h-full flex flex-col relative">
+                <!-- Decorative Top -->
+                <div class="absolute top-0 left-0 w-full flex justify-between px-2 text-gold-primary/30 text-2xl">
+                    <i class="fa-regular fa-snowflake animate-spin-slow"></i>
+                    <i class="fa-regular fa-snowflake animate-spin-slow" style="animation-delay: 1s;"></i>
+                </div>
+
+                <!-- Scrollable Content -->
+                <div class="flex-1 overflow-y-auto custom-scroll pr-2 relative z-10 text-center">
+                    
+                    <h2 class="font-script text-gold-primary text-5xl mb-2 text-gradient pt-4">
+                        ¡Feliz Navidad!
+                    </h2>
+
+                    <!-- Photo with Frame -->
+                    <div class="my-6 mx-4">
+                        <div class="photo-frame transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                            <img src="./image/equipo.jpg" alt="Equipo Bar Cometa" class="w-full h-auto object-cover rounded-sm">
+                        </div>
+                    </div>
+
+                    <div class="text-4xl text-gold-primary mb-4 animate-pulse-slow">
+                        🙏
+                    </div>
+
+                    <div class="bg-black/60 backdrop-blur-md p-6 rounded-xl border border-gold-primary/30 mx-2 shadow-[0_0_30px_rgba(250,188,2,0.1)]">
+                        <p class="font-display text-2xl text-gold-primary mb-6 text-left animate-fade-in-up opacity-0 delay-300 leading-relaxed">
+                            Querido equipo del <span class="font-bold text-white tracking-wide border-b-2 border-gold-primary/50 pb-1">Bar Cometa</span>:
+                        </p>
+                        
+                        <p class="font-body text-white text-lg font-light mb-6 text-left leading-loose animate-fade-in-up opacity-0 delay-500">
+                            Esperamos que estas fiestas os traigan <span class="font-script text-3xl text-gold-primary mx-1">tanta alegría</span> como la que ponéis en cada café y cada cerveza. 
+                            <br><br>
+                            Sois el <strong class="text-gold-soft uppercase tracking-widest text-sm font-bold bg-white/10 px-2 py-1 rounded">motor del día a día</strong>, el combustible de nuestro ingrediente secreto que hace que el Cometa brille con luz propia.
+                        </p>
+                        
+                        <p class="font-display text-white/90 text-lg italic mb-6 text-left leading-loose animate-fade-in-up opacity-0 delay-700 border-l-4 border-gold-primary pl-4">
+                            "Que en estas fechas podáis desconectar más que un cliente huyendo de la cuenta. Que vuestras copas estén tan llenas como vuestro buen humor, y que no falten las risas ni el merecido descanso."
+                        </p>
+                        
+                        <p class="font-body text-gold-soft text-sm font-medium mt-6 text-center animate-fade-in-up opacity-0 delay-900 bg-gold-primary/10 p-3 rounded-lg border border-gold-primary/20">
+                            <i class="fa-solid fa-gift mr-2"></i>Si Papá Noel no trae lo que pedís, seguro que se lo dejáis caer en la barra.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Next Button Area -->
+                <div class="pt-4 pb-2 flex justify-center w-full shrink-0">
+                    <button onclick="goToView('view-signature')" class="flex flex-col items-center text-gold-soft hover:text-gold-primary transition-colors animate-bounce">
+                        <span class="text-xs uppercase tracking-widest mb-1">Continuar</span>
+                        <i class="fa-solid fa-chevron-down text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: SIGNATURE -->
+        <section id="view-signature" class="view-section text-center bg-black/80 backdrop-blur-md">
+            
+            <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                <i class="fa-solid fa-star text-9xl text-gold-primary"></i>
+            </div>
+
+            <div class="relative z-10 max-w-xs mx-auto">
+                <div class="mb-8 text-gold-primary text-4xl">
+                    <i class="fa-solid fa-champagne-glasses"></i>
+                </div>
+
+                <p class="text-white font-light text-lg mb-6">
+                    Brindamos por vosotros.
+                </p>
+
+                <div class="font-script text-gold-primary text-5xl leading-tight mb-12 drop-shadow-lg">
+                    Con todo nuestro cariño,<br>
+                    <span class="text-4xl text-white block mt-4 font-display italic">Joana, Idoia y Ainara</span>
+                </div>
+
+                <button onclick="goToView('view-cover')" class="px-6 py-2 border border-gold-soft/30 rounded-full text-gold-soft text-sm hover:bg-gold-soft/10 transition-colors">
+                    <i class="fa-solid fa-rotate-left mr-2"></i> Volver al inicio
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- Music & SFX Control ---
+        const audio = document.getElementById('bg-music');
+        const sfxSparkle = document.getElementById('sfx-sparkle');
+        const sfxPage = document.getElementById('sfx-page');
+        const musicBtn = document.getElementById('music-btn');
+        let isMusicPlaying = false;
+        let hasInteracted = false;
+
+        // Reduce volume for SFX balance
+        audio.volume = 0.4;
+        sfxSparkle.volume = 0.6;
+        sfxPage.volume = 0.5;
+
+        function playSFX(type) {
+            if (type === 'sparkle') {
+                sfxSparkle.currentTime = 0;
+                sfxSparkle.play().catch(() => {});
+            } else if (type === 'page') {
+                sfxPage.currentTime = 0;
+                sfxPage.play().catch(() => {});
+            }
+        }
+
+        function toggleMusic() {
+            // Visual feedback immediately
+            musicBtn.classList.add('scale-90');
+            setTimeout(() => musicBtn.classList.remove('scale-90'), 150);
+
+            if (isMusicPlaying) {
+                audio.pause();
+                isMusicPlaying = false;
+                updateMusicBtnState(false);
+            } else {
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isMusicPlaying = true;
+                        updateMusicBtnState(true);
+                    })
+                    .catch(error => {
+                        console.error("Playback failed:", error);
+                        isMusicPlaying = false;
+                        updateMusicBtnState(false);
+                        // Optional: Show a tiny visual error or shake
+                        musicBtn.classList.add('animate-pulse', 'bg-red-900/50');
+                        setTimeout(() => musicBtn.classList.remove('animate-pulse', 'bg-red-900/50'), 500);
+                    });
+                }
+            }
+        }
+
+        function updateMusicBtnState(playing) {
+            if (playing) {
+                musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                musicBtn.classList.add('text-gold-primary', 'border-gold-primary');
+                musicBtn.classList.remove('opacity-50');
+            } else {
+                musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+                musicBtn.classList.remove('text-gold-primary', 'border-gold-primary');
+                musicBtn.classList.add('opacity-50');
+            }
+        }
+
+        // --- Navigation Logic ---
+        function goToView(viewId) {
+            // Find current active view
+            const current = document.querySelector('.view-section.active');
+            const next = document.getElementById(viewId);
+
+            if (current && next && current !== next) {
+                
+                // Play Page Turn SFX
+                playSFX('page');
+
+                // Animate out current
+                current.classList.remove('active');
+                current.classList.add('exiting');
+
+                // Auto play music on first interaction (Gift open)
+                if (viewId === 'view-message') {
+                    playSFX('sparkle'); // Play magic sound on reveal
+                    if (!isMusicPlaying && !hasInteracted) {
+                        hasInteracted = true;
+                        // Try to play music automatically after interaction
+                        audio.play().then(() => {
+                            isMusicPlaying = true;
+                            musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                            musicBtn.classList.add('text-gold-primary', 'border-gold-primary');
+                        }).catch(e => console.log("Auto-play prevented"));
+                    }
+                }
+
+                setTimeout(() => {
+                    current.classList.remove('exiting');
+                }, 800);
+
+                // Animate in next
+                next.classList.add('active');
+            }
+        }
+
+        // --- Snow Effect ---
+        function createSnow() {
+            const container = document.getElementById('snow-container');
+            const snowflakesCount = 30; // Mobile friendly count
+
+            for (let i = 0; i < snowflakesCount; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = '❄';
+                
+                // Randomize properties
+                const size = Math.random() * 10 + 10 + 'px';
+                const left = Math.random() * 100 + '%';
+                const duration = Math.random() * 5 + 5 + 's';
+                const delay = Math.random() * 5 + 's';
+                const opacity = Math.random() * 0.5 + 0.3;
+
+                flake.style.fontSize = size;
+                flake.style.left = left;
+                flake.style.animationDuration = duration + ', 3s';
+                flake.style.animationDelay = delay + ', 0s';
+                flake.style.opacity = opacity;
+
+                container.appendChild(flake);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createSnow();
+        });
+
+    </script>
+</body>
+</html>
