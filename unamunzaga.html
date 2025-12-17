@@ -2,606 +2,544 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Felices Fiestas - Unamunzaga Obras</title>
-    <!-- Importamos fuentes: Montserrat (Textos), Playfair Display (Títulos), Great Vibes (Caligrafía) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <!-- Iconos para controles de audio y redes sociales -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            /* Colores Corporativos */
-            --corp-blue: #0f172a; 
-            --corp-orange: #f97316; 
-            --corp-bg: #ffffff;
-            
-            /* Colores del Regalo */
-            --gift-gold: #d4af37;
-            --gift-gold-light: #fbe68b;
-            --gift-gold-dark: #aa8c2c;
-            --gift-ribbon: #ffffff;
-        }
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f0f0f0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            /* Fondo más profundo y elegante */
-            background: radial-gradient(circle at center, #1e293b, #000000);
-            color: white;
-        }
-
-        /* --- EFECTO NIEVE DE FONDO (Sutil) --- */
-        .snow, .snow:after, .snow:before {
-            content: "";
-            position: absolute;
-            top: -650px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(4px 4px at 100px 50px, rgba(255,255,255,0.3) 50%, transparent),
-                radial-gradient(6px 6px at 200px 150px, rgba(255,255,255,0.2) 50%, transparent),
-                radial-gradient(3px 3px at 300px 250px, rgba(255,255,255,0.3) 50%, transparent);
-            background-size: 650px 650px;
-            animation: snowAnim 10s linear infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .snow:after {
-            margin-left: -250px;
-            opacity: 0.5;
-            animation-duration: 15s;
-            animation-direction: reverse;
-        }
-        .snow:before {
-            margin-left: -350px;
-            opacity: 0.7;
-            animation-duration: 20s;
-            animation-delay: -5s;
-        }
-        @keyframes snowAnim {
-            from { transform: translateY(0); }
-            to { transform: translateY(650px); }
-        }
-
-        /* --- CONTENEDOR PRINCIPAL --- */
-        .scene {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-            z-index: 10;
-        }
-
-        /* --- TEXTO INTRODUCTORIO --- */
-        .intro-text-container {
-            text-align: center;
-            margin-bottom: 40px;
-            z-index: 20;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-            padding: 0 20px;
-        }
-
-        .intro-msg {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 400;
-            line-height: 1.6;
-            color: #e2e8f0;
-            max-width: 600px;
-            margin: 0 auto 15px auto;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .intro-cta {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--gift-gold);
-            margin-top: 20px;
-            opacity: 0.9;
-        }
-
-        /* --- ESTADO 1: EL REGALO (Más pequeño y elegante) --- */
-        .gift-container {
-            position: relative;
-            width: 160px; /* Más pequeño */
-            height: 160px;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            z-index: 20;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .gift-box {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--gift-gold), var(--gift-gold-dark));
-            border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            position: relative;
-        }
-
-        .gift-box::before {
-            /* Textura de partículas doradas */
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px);
-            background-size: 10px 10px;
-            opacity: 0.4;
-            border-radius: 8px;
-        }
-
-        .gift-lid {
-            position: absolute;
-            top: -25px;
-            left: -5px;
-            width: 170px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--gift-gold-light), var(--gift-gold));
-            border-radius: 4px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 12;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .ribbon-vertical {
-            position: absolute;
-            width: 25px;
-            height: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gift-ribbon);
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-            z-index: 11;
-        }
-
-        .ribbon-horizontal {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 25px;
-            height: 100%;
-            background: var(--gift-ribbon);
-            z-index: 13;
-        }
-
-        .bow {
-            position: absolute;
-            top: -45px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 45px;
-            z-index: 14;
-        }
-        .bow::before, .bow::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            width: 35px;
-            height: 35px;
-            border-radius: 50% 50% 0 50%;
-            background: var(--gift-ribbon);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .bow::before { left: 0; transform: rotate(45deg); }
-        .bow::after { right: 0; transform: rotate(-45deg) scaleX(-1); }
-
-        /* Brillo pulsante en el regalo */
-        .gift-glow {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%; height: 100%;
-            box-shadow: 0 0 30px 10px rgba(212, 175, 55, 0.3);
-            border-radius: 50%;
-            z-index: -1;
-            animation: pulseGlow 3s infinite;
-        }
-
-        /* --- ESTADO 2: LA POSTAL --- */
-        .card-container {
-            position: absolute;
-            width: 90%;
-            max-width: 480px; 
-            min-height: 650px;
-            background-color: var(--corp-bg);
-            border-radius: 8px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-            padding: 50px 40px 30px 40px; /* Ajuste padding abajo */
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            transform: translateY(50px) scale(0.9);
-            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: none;
-            text-align: left;
-            z-index: 30;
-        }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Título Principal de la Postal */
-        .main-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            color: var(--gift-gold-dark);
-            margin: 10px 0 20px 0;
-            line-height: 1;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
-        }
-
-        .logo-placeholder {
-            max-width: 150px;
-            margin: 0 auto 15px auto;
-        }
-
-        .separator {
-            width: 60px;
-            height: 4px;
-            background-color: var(--corp-orange);
-            margin: 10px auto;
-            border-radius: 2px;
-        }
-
-        .card-body {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .message-text {
-            font-family: 'Playfair Display', serif;
-            color: var(--corp-blue);
-            font-size: 1.3rem; 
-            line-height: 1.6;
-            font-weight: 500;
-            text-align: center;
-        }
-        
-        .message-text strong {
-            color: var(--corp-orange);
-            font-weight: 700;
-        }
-
-        .interior-image {
-            width: 100%;
-            height: 200px; /* Un poco menos alto para dar espacio a redes */
-            background-color: #f3f4f6;
-            margin: 20px 0;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        .interior-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 10s ease;
-        }
-        .scene.is-open .interior-image img {
-            transform: scale(1.1);
-        }
-
-        .card-footer {
-            text-align: center;
-            margin-top: auto;
-            padding-top: 15px;
-            border-top: 1px solid #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Sección de enlaces y redes */
-        .links-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .website-link {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
-            color: var(--corp-blue);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .website-link:hover {
-            color: var(--corp-orange);
-            border-bottom: 1px solid var(--corp-orange);
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        .social-icons a {
-            color: #64748b; /* Gris suave */
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        .social-icons a:hover {
-            color: var(--corp-orange);
-            transform: translateY(-2px);
-        }
-
-        .signature {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            color: #94a3b8; /* Gris más claro para la firma al final */
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-
-        /* Botón de Volver (Back) */
-        .back-control {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px;
-        }
-        .back-control span {
-            font-size: 0.8rem;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
-        }
-        .back-control:hover {
-            color: var(--corp-blue);
-        }
-
-        /* Botón de Música */
-        .music-control {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(15, 23, 42, 0.05);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            color: var(--corp-blue);
-            transition: all 0.3s;
-            opacity: 0;
-            z-index: 100;
-            border: none; /* Reset button default */
-        }
-        .music-control:hover {
-            background: rgba(15, 23, 42, 0.1);
-        }
-
-        /* --- ANIMACIONES DE APERTURA --- */
-        .scene.is-open .gift-container {
-            opacity: 0;
-            transform: scale(1.2) translateY(-50px);
-            pointer-events: none;
-        }
-        .scene.is-open .intro-text-container {
-            opacity: 0;
-            transform: translateY(-20px);
-            pointer-events: none;
-        }
-
-        .scene.is-open .card-container {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-            transition-delay: 0.2s;
-        }
-        
-        .scene.is-open .music-control {
-            opacity: 1;
-            transition-delay: 1.2s;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes pulseGlow {
-            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
-            100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 480px) {
-            .card-container {
-                width: 94%;
-                padding: 40px 20px 20px 20px;
-                min-height: 90vh;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'unamunzaga-blue': '#0f172a',
+                        'unamunzaga-orange': '#ea580c', /* Orange-600 */
+                        'unamunzaga-orange-light': '#f97316',
+                        'gold-accent': '#fbbf24',
+                    },
+                    fontFamily: {
+                        'sans': ['Montserrat', 'sans-serif'],
+                        'serif': ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'scale-in': 'scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(234, 88, 12, 0.2)' },
+                            '50%': { boxShadow: '0 0 40px rgba(234, 88, 12, 0.6)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
             }
-            .main-title { font-size: 2.5rem; }
-            .message-text { font-size: 1.05rem; }
-            .intro-msg { font-size: 1.2rem; }
-            .interior-image { height: 160px; }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617; /* Very dark slate */
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Particle effects */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            background: radial-gradient(circle, #f97316 0%, transparent 70%);
+            border-radius: 50%;
+            animation: particle-explode 1s ease-out forwards;
+        }
+
+        @keyframes particle-explode {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        /* 3D Gift Box */
+        .gift-wrapper {
+            perspective: 1000px;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+        .gift-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-20deg) rotateY(45deg);
+            transition: transform 0.5s;
+        }
+        .gift-wrapper:hover .gift-cube {
+            transform: rotateX(-20deg) rotateY(225deg);
+        }
+        .face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ea580c, #c2410c);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .face-front  { transform: rotateY(0deg) translateZ(50px); }
+        .face-back   { transform: rotateY(180deg) translateZ(50px); }
+        .face-right  { transform: rotateY(90deg) translateZ(50px); }
+        .face-left   { transform: rotateY(-90deg) translateZ(50px); }
+        .face-top    { transform: rotateX(90deg) translateZ(50px); background: #f97316; }
+        .face-bottom { transform: rotateX(-90deg) translateZ(50px); box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+
+        .ribbon-v {
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background: white;
+            left: 40px;
+            z-index: 2;
+        }
+        .ribbon-h {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: white;
+            top: 40px;
+            z-index: 2;
         }
     </style>
 </head>
-<body>
-    
-    <!-- Efecto de nieve en background -->
-    <div class="snow"></div>
+<body class="text-white h-screen flex items-center justify-center relative">
 
-    <div class="scene" id="scene">
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-unamunzaga-orange/10 rounded-full blur-[100px] animate-pulse-glow"></div>
+        <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[100px]"></div>
+        <!-- Stars/Snow -->
+        <div id="stars-container" class="w-full h-full opacity-50"></div>
+        <!-- Fireworks Canvas -->
+        <canvas id="fireworks" class="absolute inset-0 w-full h-full z-10 opacity-0 transition-opacity duration-1000"></canvas>
+    </div>
+
+    <!-- Audio Elements (Reusing existing files) -->
+    <audio id="bg-music" loop>
+        <source src="./audio/music.mp3" type="audio/mp3">
+    </audio>
+    <audio id="sfx-sparkle">
+        <source src="./audio/sparkle.mp3" type="audio/mp3">
+    </audio>
+    <audio id="sfx-page">
+        <source src="./audio/page.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- UI Controls -->
+    <button id="music-btn" class="fixed top-6 right-6 z-50 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-unamunzaga-orange hover:bg-white/10 transition-all opacity-0 pointer-events-none" onclick="toggleMusic()">
+        <i class="fa-solid fa-music"></i>
+    </button>
+
+    <!-- SCENE 1: INTRO & GIFT -->
+    <div id="intro-scene" class="relative z-10 flex flex-col items-center transition-all duration-1000">
         
-        <!-- TEXTO INTRODUCTORIO -->
-        <div class="intro-text-container" id="introText">
-            <p class="intro-msg">
-                "Si te llegó esta postal es porque eres alguien importante para nosotros."
-            </p>
-            <p class="intro-cta">Disfruta tu regalo</p>
+        <!-- Logo Area -->
+        <div class="mb-12 text-center animate-fade-in opacity-0" style="animation-delay: 0.2s;">
+            <!-- Placeholder for Logo - Replace src with 'logo.jpg' if available -->
+            <div class="bg-white/90 p-4 rounded-lg shadow-lg mb-4 inline-block transform hover:scale-105 transition-transform duration-500">
+                <img src="./image/logo.jpg" onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block'" alt="Unamunzaga Obras" class="h-16 md:h-20 object-contain">
+                <div id="logo-text" style="display:none;" class="text-unamunzaga-blue font-extrabold text-2xl tracking-tighter px-4 py-2 border-2 border-unamunzaga-blue">
+                    UNAMUNZAGA <span class="text-unamunzaga-orange">OBRAS</span>
+                </div>
+            </div>
+            <p class="text-gray-400 text-sm tracking-[0.3em] uppercase mt-4">Experiencia & Calidad</p>
         </div>
 
-        <!-- ESTADO 1: EL REGALO -->
-        <div class="gift-container" id="gift" onclick="openGift()">
-            <div class="gift-glow"></div>
-            <div class="gift-lid">
-                <div class="ribbon-horizontal"></div>
-                <div class="bow"></div>
-            </div>
-            <div class="gift-box">
-                <div class="ribbon-vertical"></div>
+        <!-- 3D Gift Box -->
+        <div class="gift-wrapper animate-float group" onclick="openGift(event)">
+            <div class="gift-cube">
+                <div class="face face-front"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+                <div class="face face-back"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+                <div class="face face-right"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+                <div class="face face-left"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+                <div class="face face-top"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+                <div class="face face-bottom"></div>
             </div>
         </div>
 
-        <!-- ESTADO 2: LA POSTAL INTERNA -->
-        <div class="card-container">
-            <!-- Botón Volver -->
-            <button class="back-control" onclick="closeCard()">
-                <i class="fas fa-arrow-left"></i> <span>Volver</span>
+        <p class="mt-12 text-unamunzaga-orange text-xs uppercase tracking-widest animate-pulse font-semibold">Toca para descubrir</p>
+    </div>
+
+    <!-- SCENE 2: THE CARD (With Steps) -->
+    <div id="card-scene" class="fixed inset-0 z-20 flex items-center justify-center pointer-events-none opacity-0 scale-90 transition-all duration-1000 ease-out">
+        
+        <div class="glass-panel w-[90%] max-w-md max-h-[90vh] overflow-y-auto rounded-2xl p-8 relative flex flex-col text-center shadow-[0_0_50px_rgba(234,88,12,0.15)]">
+            
+            <!-- Close Button -->
+            <button onclick="closeCard()" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors z-50">
+                <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <!-- Botón Música -->
-            <button class="music-control" id="musicBtn" onclick="toggleMusic()">
-                <i class="fas fa-volume-up" id="musicIcon"></i>
-            </button>
+            <!-- Content Container -->
+            <div id="card-content-wrapper" class="relative">
+                
+                <!-- STEP 1: Corporate Message -->
+                <div id="step-1" class="transition-all duration-500 ease-in-out">
+                    <!-- Header -->
+                    <div class="border-b border-white/10 pb-6 mb-6">
+                        <h1 class="font-serif text-4xl md:text-5xl text-white mb-2 leading-tight">
+                            Felices <span class="text-unamunzaga-orange italic">Fiestas</span>
+                        </h1>
+                        <div class="w-16 h-1 bg-unamunzaga-orange mx-auto rounded-full"></div>
+                    </div>
 
-            <div class="card-header">
-                <h1 class="main-title">Feliz Navidad</h1>
-                
-                <div class="logo-placeholder">
-                    <img src="https://via.placeholder.com/150x50/ffffff/0f172a?text=UNAMUNZAGA" alt="Unamunzaga Obras" style="max-width: 100%;" id="realLogo">
-                </div>
-                <div class="separator"></div>
-            </div>
+                    <!-- Main Message -->
+                    <div class="space-y-4">
+                        <p class="text-gray-200 leading-relaxed font-light">
+                            En <strong class="text-white">Unamunzaga Obras</strong>, sabemos que los mejores proyectos son los que se construyen con confianza y dedicación.
+                        </p>
+                        
+                        <!-- Decorative Image Area -->
+                        <div class="relative w-full h-48 rounded-lg overflow-hidden group shadow-xl my-6">
+                            <img src="image\los-rascacielos-de-la-ciudad-reflejan-la-vibrante-luz-del-atardecer-en-vidrio-generado-por-ia.jpg" 
+                                 alt="Arquitectura Moderna" 
+                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-0 w-full text-center">
+                                <span class="text-xs uppercase tracking-wider text-white/80 border border-white/30 px-3 py-1 rounded-full backdrop-blur-sm">Construyendo Futuro</span>
+                            </div>
+                        </div>
 
-            <div class="card-body">
-                <p class="message-text">
-                    Gracias por confiar en nosotros un año más.
-                    <br><br>
-                    En <strong>Unamunzaga Obras</strong> seguimos construyendo espacios pensados para durar.
-                </p>
-                
-                <div class="interior-image">
-                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Interior Exclusivo">
-                </div>
-                
-                <p class="message-text" style="font-size: 1.1rem; margin-top: 10px;">
-                    Les deseamos unas felices fiestas y un gran comienzo de año.
-                </p>
-            </div>
-
-            <div class="card-footer">
-                
-                <!-- Enlaces añadidos -->
-                <div class="links-section">
-                    <a href="https://www.unamunzagaobras.com" target="_blank" class="website-link">www.unamunzagaobras.com</a>
-                    
-                    <div class="social-icons">
-                        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <button onclick="nextStep()" class="group relative px-8 py-3 bg-unamunzaga-orange text-white font-sans uppercase tracking-widest text-xs font-bold rounded-full overflow-hidden shadow-lg hover:shadow-orange-500/50 transition-all duration-300 mt-4">
+                            <span class="relative z-10 group-hover:mr-2 transition-all">Continuar</span>
+                            <i class="fa-solid fa-chevron-right relative z-10 opacity-0 group-hover:opacity-100 transition-all -ml-2 group-hover:ml-0"></i>
+                            <div class="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                        </button>
                     </div>
                 </div>
 
-                <p class="signature">— Equipo Unamunzaga Obras —</p>
+                <!-- STEP 2: Warm Wishes (Hidden initially) -->
+                <div id="step-2" class="hidden opacity-0 translate-y-10 transition-all duration-500 ease-in-out">
+                    
+                    <div class="py-4">
+                        <div class="inline-block p-4 rounded-full bg-gradient-to-br from-unamunzaga-orange to-red-600 mb-6 shadow-[0_0_30px_rgba(234,88,12,0.4)] animate-pulse-glow">
+                            <i class="fa-solid fa-champagne-glasses text-4xl text-white"></i>
+                        </div>
+
+                        <h2 class="font-serif text-3xl text-white mb-6">
+                            Un Brindis por <br> <span class="text-gold-accent italic">Vosotros</span>
+                        </h2>
+
+                        <p class="text-gray-200 text-lg leading-relaxed font-light mb-8 italic border-l-2 border-unamunzaga-orange pl-4 text-left">
+                            "Que la magia de estas fiestas ilumine cada rincón de vuestros hogares y que el nuevo año llegue cargado de proyectos ilusionantes y éxitos compartidos."
+                        </p>
+
+                        <div class="bg-white/5 rounded-xl p-6 border border-white/10 mb-8">
+                            <p class="text-sm text-gray-400 uppercase tracking-widest mb-2">Con todo el cariño</p>
+                            <p class="font-serif text-2xl text-white">El Equipo de Unamunzaga</p>
+                        </div>
+
+                        <!-- Footer Links (Moved here) -->
+                        <div class="flex justify-center space-x-6">
+                            <a href="https://www.instagram.com/unamunzagaobras/" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-unamunzaga-orange hover:scale-110 transition-all duration-300">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/unamunzagaobras" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-blue-600 hover:scale-110 transition-all duration-300">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.unamunzagaobras.com" target="_blank" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-green-600 hover:scale-110 transition-all duration-300">
+                                <i class="fa-solid fa-globe"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Audio -->
-    <audio id="bgMusic" loop>
-        <source src="./audio/music.mp3" type="audio/mp3">
-        Tu navegador no soporta audio.
-    </audio>
-
     <script>
-        const scene = document.getElementById('scene');
-        const audio = document.getElementById('bgMusic');
-        const musicIcon = document.getElementById('musicIcon');
-        let isPlaying = false;
+        // --- Configuration ---
+        const audio = document.getElementById('bg-music');
+        const sfxSparkle = document.getElementById('sfx-sparkle');
+        const sfxPage = document.getElementById('sfx-page');
+        const musicBtn = document.getElementById('music-btn');
+        let isMusicPlaying = false;
 
-        function openGift() {
-            scene.classList.add('is-open');
-            playAudio();
+        // Set volumes
+        audio.volume = 0.4;
+        sfxSparkle.volume = 0.5;
+        sfxPage.volume = 0.5;
+
+        // --- Background Stars ---
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for(let i=0; i<50; i++) {
+                const star = document.createElement('div');
+                star.className = 'absolute bg-white rounded-full opacity-0 animate-pulse-glow';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.top = Math.random() * 100 + '%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // --- Fireworks Logic ---
+        class FireworkSystem {
+            constructor() {
+                this.canvas = document.getElementById('fireworks');
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                this.particles = [];
+                this.active = false;
+                
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            start() {
+                this.active = true;
+                this.canvas.classList.remove('opacity-0');
+                this.loop();
+                // Launch bursts randomly
+                this.interval = setInterval(() => this.launchRandom(), 800);
+            }
+
+            stop() {
+                this.active = false;
+                this.canvas.classList.add('opacity-0');
+                clearInterval(this.interval);
+            }
+
+            launchRandom() {
+                const x = Math.random() * this.canvas.width;
+                const y = this.canvas.height;
+                const targetY = Math.random() * (this.canvas.height * 0.5);
+                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                this.createExplosion(x, targetY, color);
+            }
+
+            createExplosion(x, y, color) {
+                for (let i = 0; i < 50; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * 3 + 1;
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        vx: Math.cos(angle) * velocity,
+                        vy: Math.sin(angle) * velocity,
+                        alpha: 1,
+                        color: color,
+                        decay: Math.random() * 0.02 + 0.01
+                    });
+                }
+            }
+
+            loop() {
+                if (!this.active) return;
+                
+                this.ctx.globalCompositeOperation = 'destination-out';
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.globalCompositeOperation = 'lighter';
+
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const p = this.particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.05; // gravity
+                    p.alpha -= p.decay;
+
+                    if (p.alpha <= 0) {
+                        this.particles.splice(i, 1);
+                    } else {
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    }
+                }
+
+                requestAnimationFrame(() => this.loop());
+            }
         }
 
-        // Nueva función para volver atrás
+        const fireworks = new FireworkSystem();
+
+        // --- Interaction Logic ---
+        function openGift(e) {
+            // 1. Play SFX
+            sfxSparkle.currentTime = 0;
+            sfxSparkle.play().catch(e => console.log(e));
+
+            // 2. Play Music (if not playing)
+            if (!isMusicPlaying) {
+                audio.play().then(() => {
+                    isMusicPlaying = true;
+                    updateMusicBtn();
+                }).catch(e => console.log("Auto-play blocked"));
+            }
+
+            // 3. Visual Effects (Particles + Fireworks)
+            createParticles(e.clientX, e.clientY);
+            fireworks.start();
+
+            // 4. Transitions
+            const intro = document.getElementById('intro-scene');
+            const card = document.getElementById('card-scene');
+            
+            intro.style.transform = 'scale(1.5)';
+            intro.style.opacity = '0';
+            intro.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                intro.style.display = 'none';
+                card.classList.remove('pointer-events-none', 'opacity-0', 'scale-90');
+                card.classList.add('opacity-100', 'scale-100');
+                
+                // Show music button
+                musicBtn.classList.remove('opacity-0', 'pointer-events-none');
+            }, 500);
+        }
+
+        function nextStep() {
+            // Play sound for transition
+            sfxPage.currentTime = 0;
+            sfxPage.play();
+
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+
+            // Fade out step 1
+            step1.classList.add('opacity-0', '-translate-x-10');
+            
+            setTimeout(() => {
+                step1.classList.add('hidden');
+                
+                // Fade in step 2
+                step2.classList.remove('hidden');
+                // Force reflow
+                void step2.offsetWidth; 
+                step2.classList.remove('opacity-0', 'translate-y-10');
+            }, 500);
+        }
+
         function closeCard() {
-            scene.classList.remove('is-open');
-            // Opcional: Pausar música al cerrar o dejarla sonando
-            // audio.pause(); 
-            // isPlaying = false;
-            // updateIcon();
+            sfxPage.currentTime = 0;
+            sfxPage.play().catch(()=>{});
+
+            fireworks.stop();
+
+            const intro = document.getElementById('intro-scene');
+            const card = document.getElementById('card-scene');
+
+            card.classList.remove('opacity-100', 'scale-100');
+            card.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+
+            // Reset Steps
+            setTimeout(() => {
+                document.getElementById('step-1').classList.remove('hidden', 'opacity-0', '-translate-x-10');
+                document.getElementById('step-2').classList.add('hidden', 'opacity-0', 'translate-y-10');
+                
+                intro.style.display = 'flex';
+                void intro.offsetWidth;
+                intro.style.transform = 'scale(1)';
+                intro.style.opacity = '1';
+                intro.style.pointerEvents = 'auto';
+            }, 500);
         }
 
-        function playAudio() {
-            audio.volume = 0.4;
-            audio.play().then(() => {
-                isPlaying = true;
-                updateIcon();
-            }).catch(e => {
-                console.log("Autoplay bloqueado");
-                isPlaying = false;
-                updateIcon();
-            });
+        function createParticles(x, y) {
+            const colors = ['#f97316', '#fbbf24', '#ffffff', '#0f172a'];
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 8 + 4 + 'px';
+                particle.style.width = size;
+                particle.style.height = size;
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Random direction
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 100 + 50;
+                const tx = Math.cos(angle) * velocity + 'px';
+                const ty = Math.sin(angle) * velocity + 'px';
+                
+                particle.style.setProperty('--tx', tx);
+                particle.style.setProperty('--ty', ty);
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 1000);
+            }
         }
 
+        // --- Audio Control ---
         function toggleMusic() {
-            if (isPlaying) { audio.pause(); } else { audio.play(); }
-            isPlaying = !isPlaying;
-            updateIcon();
+            if (isMusicPlaying) {
+                audio.pause();
+                isMusicPlaying = false;
+            } else {
+                audio.play();
+                isMusicPlaying = true;
+            }
+            updateMusicBtn();
         }
 
-        function updateIcon() {
-            musicIcon.className = isPlaying ? 'fas fa-volume-up' : 'fas fa-volume-mute';
-        }
-
-        window.onload = function() {
-            const logoImg = document.getElementById('realLogo');
-            const testImg = new Image();
-            testImg.onload = function() { logoImg.src = 'Logo-768x445.jpg'; }
-            testImg.src = 'Logo-768x445.jpg';
+        function updateMusicBtn() {
+            if (isMusicPlaying) {
+                musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                musicBtn.classList.add('bg-unamunzaga-orange', 'text-white');
+                musicBtn.classList.remove('text-unamunzaga-orange');
+            } else {
+                musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+                musicBtn.classList.remove('bg-unamunzaga-orange', 'text-white');
+                musicBtn.classList.add('text-unamunzaga-orange');
+            }
         }
     </script>
 </body>
