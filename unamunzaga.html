@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felices Fiestas - Unamunzaga Obras</title>
+    <!-- Importamos fuentes: Montserrat (Textos), Playfair Display (Títulos), Great Vibes (Caligrafía) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Iconos para controles de audio y redes sociales -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Colores Corporativos */
+            --corp-blue: #0f172a; 
+            --corp-orange: #f97316; 
+            --corp-bg: #ffffff;
+            
+            /* Colores del Regalo */
+            --gift-gold: #d4af37;
+            --gift-gold-light: #fbe68b;
+            --gift-gold-dark: #aa8c2c;
+            --gift-ribbon: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f0f0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* Fondo más profundo y elegante */
+            background: radial-gradient(circle at center, #1e293b, #000000);
+            color: white;
+        }
+
+        /* --- EFECTO NIEVE DE FONDO (Sutil) --- */
+        .snow, .snow:after, .snow:before {
+            content: "";
+            position: absolute;
+            top: -650px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(4px 4px at 100px 50px, rgba(255,255,255,0.3) 50%, transparent),
+                radial-gradient(6px 6px at 200px 150px, rgba(255,255,255,0.2) 50%, transparent),
+                radial-gradient(3px 3px at 300px 250px, rgba(255,255,255,0.3) 50%, transparent);
+            background-size: 650px 650px;
+            animation: snowAnim 10s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .snow:after {
+            margin-left: -250px;
+            opacity: 0.5;
+            animation-duration: 15s;
+            animation-direction: reverse;
+        }
+        .snow:before {
+            margin-left: -350px;
+            opacity: 0.7;
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+        @keyframes snowAnim {
+            from { transform: translateY(0); }
+            to { transform: translateY(650px); }
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            z-index: 10;
+        }
+
+        /* --- TEXTO INTRODUCTORIO --- */
+        .intro-text-container {
+            text-align: center;
+            margin-bottom: 40px;
+            z-index: 20;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            padding: 0 20px;
+        }
+
+        .intro-msg {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #e2e8f0;
+            max-width: 600px;
+            margin: 0 auto 15px auto;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .intro-cta {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gift-gold);
+            margin-top: 20px;
+            opacity: 0.9;
+        }
+
+        /* --- ESTADO 1: EL REGALO (Más pequeño y elegante) --- */
+        .gift-container {
+            position: relative;
+            width: 160px; /* Más pequeño */
+            height: 160px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            z-index: 20;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .gift-box {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gift-gold), var(--gift-gold-dark));
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .gift-box::before {
+            /* Textura de partículas doradas */
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px);
+            background-size: 10px 10px;
+            opacity: 0.4;
+            border-radius: 8px;
+        }
+
+        .gift-lid {
+            position: absolute;
+            top: -25px;
+            left: -5px;
+            width: 170px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gift-gold-light), var(--gift-gold));
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 12;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ribbon-vertical {
+            position: absolute;
+            width: 25px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gift-ribbon);
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            z-index: 11;
+        }
+
+        .ribbon-horizontal {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 100%;
+            background: var(--gift-ribbon);
+            z-index: 13;
+        }
+
+        .bow {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 45px;
+            z-index: 14;
+        }
+        .bow::before, .bow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 35px;
+            height: 35px;
+            border-radius: 50% 50% 0 50%;
+            background: var(--gift-ribbon);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .bow::before { left: 0; transform: rotate(45deg); }
+        .bow::after { right: 0; transform: rotate(-45deg) scaleX(-1); }
+
+        /* Brillo pulsante en el regalo */
+        .gift-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            box-shadow: 0 0 30px 10px rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulseGlow 3s infinite;
+        }
+
+        /* --- ESTADO 2: LA POSTAL --- */
+        .card-container {
+            position: absolute;
+            width: 90%;
+            max-width: 480px; 
+            min-height: 650px;
+            background-color: var(--corp-bg);
+            border-radius: 8px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            padding: 50px 40px 30px 40px; /* Ajuste padding abajo */
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            text-align: left;
+            z-index: 30;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Título Principal de la Postal */
+        .main-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--gift-gold-dark);
+            margin: 10px 0 20px 0;
+            line-height: 1;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+        }
+
+        .logo-placeholder {
+            max-width: 150px;
+            margin: 0 auto 15px auto;
+        }
+
+        .separator {
+            width: 60px;
+            height: 4px;
+            background-color: var(--corp-orange);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .message-text {
+            font-family: 'Playfair Display', serif;
+            color: var(--corp-blue);
+            font-size: 1.3rem; 
+            line-height: 1.6;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .message-text strong {
+            color: var(--corp-orange);
+            font-weight: 700;
+        }
+
+        .interior-image {
+            width: 100%;
+            height: 200px; /* Un poco menos alto para dar espacio a redes */
+            background-color: #f3f4f6;
+            margin: 20px 0;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .interior-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 10s ease;
+        }
+        .scene.is-open .interior-image img {
+            transform: scale(1.1);
+        }
+
+        .card-footer {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Sección de enlaces y redes */
+        .links-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .website-link {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: var(--corp-blue);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .website-link:hover {
+            color: var(--corp-orange);
+            border-bottom: 1px solid var(--corp-orange);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .social-icons a {
+            color: #64748b; /* Gris suave */
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .social-icons a:hover {
+            color: var(--corp-orange);
+            transform: translateY(-2px);
+        }
+
+        .signature {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #94a3b8; /* Gris más claro para la firma al final */
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        /* Botón de Volver (Back) */
+        .back-control {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px;
+        }
+        .back-control span {
+            font-size: 0.8rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+        .back-control:hover {
+            color: var(--corp-blue);
+        }
+
+        /* Botón de Música */
+        .music-control {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.05);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: var(--corp-blue);
+            transition: all 0.3s;
+            opacity: 0;
+            z-index: 100;
+            border: none; /* Reset button default */
+        }
+        .music-control:hover {
+            background: rgba(15, 23, 42, 0.1);
+        }
+
+        /* --- ANIMACIONES DE APERTURA --- */
+        .scene.is-open .gift-container {
+            opacity: 0;
+            transform: scale(1.2) translateY(-50px);
+            pointer-events: none;
+        }
+        .scene.is-open .intro-text-container {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        .scene.is-open .card-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            transition-delay: 0.2s;
+        }
+        
+        .scene.is-open .music-control {
+            opacity: 1;
+            transition-delay: 1.2s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulseGlow {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            .card-container {
+                width: 94%;
+                padding: 40px 20px 20px 20px;
+                min-height: 90vh;
+            }
+            .main-title { font-size: 2.5rem; }
+            .message-text { font-size: 1.05rem; }
+            .intro-msg { font-size: 1.2rem; }
+            .interior-image { height: 160px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Efecto de nieve en background -->
+    <div class="snow"></div>
+
+    <div class="scene" id="scene">
+        
+        <!-- TEXTO INTRODUCTORIO -->
+        <div class="intro-text-container" id="introText">
+            <p class="intro-msg">
+                "Si te llegó esta postal es porque eres alguien importante para nosotros."
+            </p>
+            <p class="intro-cta">Disfruta tu regalo</p>
+        </div>
+
+        <!-- ESTADO 1: EL REGALO -->
+        <div class="gift-container" id="gift" onclick="openGift()">
+            <div class="gift-glow"></div>
+            <div class="gift-lid">
+                <div class="ribbon-horizontal"></div>
+                <div class="bow"></div>
+            </div>
+            <div class="gift-box">
+                <div class="ribbon-vertical"></div>
+            </div>
+        </div>
+
+        <!-- ESTADO 2: LA POSTAL INTERNA -->
+        <div class="card-container">
+            <!-- Botón Volver -->
+            <button class="back-control" onclick="closeCard()">
+                <i class="fas fa-arrow-left"></i> <span>Volver</span>
+            </button>
+
+            <!-- Botón Música -->
+            <button class="music-control" id="musicBtn" onclick="toggleMusic()">
+                <i class="fas fa-volume-up" id="musicIcon"></i>
+            </button>
+
+            <div class="card-header">
+                <h1 class="main-title">Feliz Navidad</h1>
+                
+                <div class="logo-placeholder">
+                    <img src="https://via.placeholder.com/150x50/ffffff/0f172a?text=UNAMUNZAGA" alt="Unamunzaga Obras" style="max-width: 100%;" id="realLogo">
+                </div>
+                <div class="separator"></div>
+            </div>
+
+            <div class="card-body">
+                <p class="message-text">
+                    Gracias por confiar en nosotros un año más.
+                    <br><br>
+                    En <strong>Unamunzaga Obras</strong> seguimos construyendo espacios pensados para durar.
+                </p>
+                
+                <div class="interior-image">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Interior Exclusivo">
+                </div>
+                
+                <p class="message-text" style="font-size: 1.1rem; margin-top: 10px;">
+                    Les deseamos unas felices fiestas y un gran comienzo de año.
+                </p>
+            </div>
+
+            <div class="card-footer">
+                
+                <!-- Enlaces añadidos -->
+                <div class="links-section">
+                    <a href="https://www.unamunzagaobras.com" target="_blank" class="website-link">www.unamunzagaobras.com</a>
+                    
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <p class="signature">— Equipo Unamunzaga Obras —</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="bgMusic" loop>
+        <source src="./audio/music.mp3" type="audio/mp3">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <script>
+        const scene = document.getElementById('scene');
+        const audio = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        function openGift() {
+            scene.classList.add('is-open');
+            playAudio();
+        }
+
+        // Nueva función para volver atrás
+        function closeCard() {
+            scene.classList.remove('is-open');
+            // Opcional: Pausar música al cerrar o dejarla sonando
+            // audio.pause(); 
+            // isPlaying = false;
+            // updateIcon();
+        }
+
+        function playAudio() {
+            audio.volume = 0.4;
+            audio.play().then(() => {
+                isPlaying = true;
+                updateIcon();
+            }).catch(e => {
+                console.log("Autoplay bloqueado");
+                isPlaying = false;
+                updateIcon();
+            });
+        }
+
+        function toggleMusic() {
+            if (isPlaying) { audio.pause(); } else { audio.play(); }
+            isPlaying = !isPlaying;
+            updateIcon();
+        }
+
+        function updateIcon() {
+            musicIcon.className = isPlaying ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        }
+
+        window.onload = function() {
+            const logoImg = document.getElementById('realLogo');
+            const testImg = new Image();
+            testImg.onload = function() { logoImg.src = 'Logo-768x445.jpg'; }
+            testImg.src = 'Logo-768x445.jpg';
+        }
+    </script>
+</body>
+</html>
